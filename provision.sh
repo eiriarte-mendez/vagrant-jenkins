@@ -1,6 +1,12 @@
 #!/bin/bash
 
 ########################
+# Java
+########################
+echo "Installing Java"
+sudo apt-get -y install openjdk-8-jdk > /dev/null 2>&1
+
+########################
 # Jenkins
 ########################
 echo "Installing Jenkins"
