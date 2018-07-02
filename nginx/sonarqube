@@ -1,11 +1,11 @@
-upstream jenkins_server {
-    server 127.0.0.1:8080 fail_timeout=0;
+upstream sonarqube_server {
+    server 127.0.0.1:9000 fail_timeout=0;
 }
 
 server {
-    listen 4080;
-    listen [::]:4080 default ipv6only=on;
-    server_name jenkins.local;
+    listen 4090;
+    listen [::]:4090 default ipv6only=on;
+    server_name sonarqube.local;
 
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -13,7 +13,7 @@ server {
         proxy_redirect off;
 
         if (!-f $request_filename) {
-            proxy_pass http://jenkins_server;
+            proxy_pass http://sonarqube_server;
             break;
         }
     }

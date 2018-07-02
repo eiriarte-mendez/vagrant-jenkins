@@ -1,14 +1,23 @@
 #!/bin/bash
 
-########################
-# Install nginx
-########################
-echo ">>  Install nginx"
-sudo apt-get -y install nginx > /dev/null 2>&1
-sudo service nginx start
-cd /etc/nginx/sites-available
-sudo rm default ../sites-enabled/default
-sudo cp /vagrant/nginx/jenkins /etc/nginx/sites-available/
-sudo ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/
-sudo service nginx restart
-sudo service jenkins restart
+if [ -f /opt/box/.nginx ] ; then
+    echo ">> nginx: installed and configured"
+    service nginx restart
+else
+    echo ">>  nginx: install"
+    apt-get -y install nginx > /dev/null 2>&1
+    service nginx start
+
+    echo ">> nginx: configure"
+    cd /etc/nginx/sites-available
+    rm default ../sites-enabled/default
+
+    cp /vagrant/nginx/jenkins /etc/nginx/sites-available/
+    cp /vagrant/nginx/sonarqube /etc/nginx/sites-available/
+    
+    ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/
+    ln -s /etc/nginx/sites-available/sonarqube /etc/nginx/sites-enabled/
+    
+    touch /opt/box/.nginx 
+    service nginx restart
+fi 

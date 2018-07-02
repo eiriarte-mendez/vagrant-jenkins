@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo ">> Start sonarqube server"
+echo ">> sonarqube-server: run"
 cd /vagrant/sonarqube
 docker-compose up --build -d
